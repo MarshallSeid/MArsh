@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+
+  <service uuid="1800">
+    <description>Generic Access Profile</description>
+
+    <characteristic uuid="2a00"> #2a00 --> device name
+      <properties read="true" const="true"/>
+	  <value length="8" type="hex" />
+      <description>Object Temperature Sensor</description>
+    </characteristic>
+	
+	<characteristic uuid="2a01"> #2a01 --> appearance
+		<properties read="true" const= "true"/>
+		<value type="hex" length="2"/>
+  </service>
+
+  <service uuid="1809" advertise="true">  #1809 for Health Thermometer
+	<description>Object Temperature Sensor</description>
+	<characteristic uuid="2a1e"/> # 2a1e --> intermediate temperature
+
+</configuration>

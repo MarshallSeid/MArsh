@@ -1,0 +1,44 @@
+#BGS Script for Marsh and Arsh's Thermometer using the BLE112 I2C interface 
+
+#Setting variables
+dim connected
+dim result
+dim written
+dim port
+dim data
+dim data_len
+dim celsius
+dim fahrenheit
+
+# Boot event listener -- Similar to C Main method
+event system_boot(major, minor, patch, build, ll_version, protocol, hw)
+     # System started, enable advertising and allow connections
+     call gap_set_mode(gap_general_discoverable, gap_undirected_connectable)
+
+end
+
+# System boot event listener
+ event system_boot(major, minor, patch, build, ll_version, protocol, hw)
+    # Device is not connected yet
+    connected = 0
+ 
+    # Set advertisement interval to 20ms min, 30ms max (units are 0.625ms)
+    # Use all three advertisement channels (7 = bitmask 0b00000111)
+    call gap_set_adv_parameters(32, 48, 7)
+ 
+    # Start advertising (discoverable/connectable)
+    call gap_set_mode(gap_general_discoverable, gap_undirected_connectable)
+end
+
+# Connection event listener
+event connection_status(connection, flags, address, address_type, conn_interval, timeout, latency,
+bonding)
+     # Device is connected
+    connected = 1
+end
+
+# Disconnection event listener
+event connection_disconnected(connection, result)
+    # connection disconnected, resume advertising
+     call gap_set_mode(gap_general_discoverable, gap_undirected_connectable)
+end
